@@ -1,0 +1,9 @@
+Samroids
+========
+
+This is a simple asteroids clone written in JAVA using the SLICK gaming library. [http://slick.cokeandcode.com/].
+
+Installation
+------------
+
+This project was created in Eclipse Helios Service Release 2. Just open the file and install the LWGL native files. You can find more information on how to do that at LWGL homepage [http://lwjgl.org/] 
