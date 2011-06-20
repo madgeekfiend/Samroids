@@ -7,6 +7,7 @@ import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 
 /**
@@ -17,8 +18,8 @@ import org.newdawn.slick.SlickException;
  */
 public class GameApp extends BasicGame {
 	
-	private final static int SCREEN_WIDTH = 800;
-	private final static int SCREEN_HEIGHT = 600;
+	public final static int SCREEN_WIDTH = 800;
+	public final static int SCREEN_HEIGHT = 600;
 	private Player player = null;
 	private ArrayList<IRenderable> drawables = new ArrayList<IRenderable>();
 	private Image backgroundImage = null;
@@ -49,8 +50,13 @@ public class GameApp extends BasicGame {
 	}
 
 	@Override
-	public void update(GameContainer arg0, int arg1) throws SlickException {
-		
+	public void update(GameContainer gc, int delta ) throws SlickException {
+        Input input = gc.getInput();
+        
+        for ( IRenderable renderable : this.drawables ) {
+        	renderable.update( input, delta );
+        }
+        
 	}
 	
 	/**

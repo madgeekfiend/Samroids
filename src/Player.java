@@ -2,6 +2,7 @@ import interfaces.IRenderable;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 
 
@@ -21,7 +22,7 @@ public class Player implements IRenderable {
 		this.currentY = startY;
 		// Load the player in the coordinates
 		ship = new Image( Player.SHIP_IMAGE, new Color(0,0,0) );
-		ship.rotate(90); // Have the ship face straight up
+		// ship.rotate(90); // Have the ship face straight up
 		this.draw();		
 	}
 	
@@ -36,5 +37,41 @@ public class Player implements IRenderable {
 	 */
 	public Image getShip() { return this.ship; }
 	public PlayerState getState() { return this.state; }
+
+	@Override
+	public void update(Input input, int delta) {
+        if(input.isKeyDown(Input.KEY_A))
+        {
+            ship.rotate(-0.2f * delta);
+        }
+ 
+        if(input.isKeyDown(Input.KEY_D))
+        {
+        	ship.rotate(0.2f * delta);
+        }
+ 
+        if(input.isKeyDown(Input.KEY_W))
+        {
+            float hip = 0.4f * delta;
+ 
+            float rotation = ship.getRotation();
+ 
+            this.currentX += hip * Math.sin(Math.toRadians(rotation));
+            this.currentY -= hip * Math.cos(Math.toRadians(rotation));
+        }
+        
+        // If they hit the borders or end of the screen we have to wrap them around
+        // The new origin is the projection of the intersection point on the opposite border 
+        if ( this.currentX <= 0) {
+        	this.currentX = GameApp.SCREEN_WIDTH - 2;        	        	         
+        } else if ( this.currentX >= GameApp.SCREEN_WIDTH - 1) {
+        	this.currentX = 1;            
+        } else if ( this.currentY <= 0) {
+        	this.currentY = GameApp.SCREEN_HEIGHT - 2;            
+        } else if ( this.currentY >= GameApp.SCREEN_HEIGHT - 1) {
+        	this.currentY = 1;            
+        }
+		
+	}
 	
 }
