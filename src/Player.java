@@ -9,6 +9,7 @@ import org.newdawn.slick.SlickException;
 public class Player implements IEntity {
 	private final static String SHIP_IMAGE = "resources/triangle.png";
 	private final float MAX_SPEED = 0.4f;
+	private final float DECELERATION_VALUE = 0.985f;
 	private Image ship = null;
 	public enum PlayerState {
 		PLAYER_ALIVE,
@@ -62,7 +63,7 @@ public class Player implements IEntity {
         }     	
         else
         {
-        	this.velocity *= 0.10f;
+        	this.velocity *= DECELERATION_VALUE;
         }
         
         rotation = ship.getRotation();
