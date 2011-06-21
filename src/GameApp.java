@@ -1,4 +1,4 @@
-import interfaces.IRenderable;
+import interfaces.IEntity;
 
 import java.util.ArrayList;
 
@@ -21,7 +21,7 @@ public class GameApp extends BasicGame {
 	public final static int SCREEN_WIDTH = 800;
 	public final static int SCREEN_HEIGHT = 600;
 	private Player player = null;
-	private ArrayList<IRenderable> drawables = new ArrayList<IRenderable>();
+	private ArrayList<IEntity> drawables = new ArrayList<IEntity>();
 	private Image backgroundImage = null;
 	private final static String BACKGROUND_IMAGE = "resources/star.jpg";
 
@@ -33,7 +33,7 @@ public class GameApp extends BasicGame {
 	public void render(GameContainer arg0, Graphics arg1) throws SlickException {	
 		// Always draw background first
 		backgroundImage.draw( 0.0f, 0.0f, 1.0f);
-		for( IRenderable renderable : this.drawables ) 
+		for( IEntity renderable : this.drawables ) 
 		{
 			renderable.draw();
 		}
@@ -53,7 +53,7 @@ public class GameApp extends BasicGame {
 	public void update(GameContainer gc, int delta ) throws SlickException {
         Input input = gc.getInput();
         
-        for ( IRenderable renderable : this.drawables ) {
+        for ( IEntity renderable : this.drawables ) {
         	renderable.update( input, delta );
         }
         

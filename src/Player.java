@@ -1,4 +1,4 @@
-import interfaces.IRenderable;
+import interfaces.IEntity;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
@@ -6,8 +6,9 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 
 
-public class Player implements IRenderable {
+public class Player implements IEntity {
 	private final static String SHIP_IMAGE = "resources/triangle.png";
+	private final float MAX_SPEED = 0.4f;
 	private Image ship = null;
 	public enum PlayerState {
 		PLAYER_ALIVE,
@@ -16,6 +17,7 @@ public class Player implements IRenderable {
 	private PlayerState state = PlayerState.PLAYER_ALIVE;
 	private float currentX = 0.0f;
 	private float currentY = 0.0f;
+	private float velocity = 0.0f;
 	
 	public Player( float startX, float startY ) throws SlickException {
 		this.currentX = startX;
@@ -40,25 +42,33 @@ public class Player implements IRenderable {
 
 	@Override
 	public void update(Input input, int delta) {
+		
+		float hip = this.velocity * delta; //0.4f * delta; 
+		float rotation;
+		
         if(input.isKeyDown(Input.KEY_A))
         {
             ship.rotate(-0.2f * delta);
-        }
- 
+        } 
         if(input.isKeyDown(Input.KEY_D))
         {
         	ship.rotate(0.2f * delta);
         }
- 
+        
         if(input.isKeyDown(Input.KEY_W))
         {
-            float hip = 0.4f * delta;
- 
-            float rotation = ship.getRotation();
- 
-            this.currentX += hip * Math.sin(Math.toRadians(rotation));
-            this.currentY -= hip * Math.cos(Math.toRadians(rotation));
+        	// Increase velocity to max
+        	this.velocity = Math.min( this.velocity + 0.01f, MAX_SPEED );        	
+        }     	
+        else
+        {
+        	this.velocity *= 0.10f;
         }
+        
+        rotation = ship.getRotation();
+
+        this.currentX += hip * Math.sin(Math.toRadians(rotation));
+        this.currentY -= hip * Math.cos(Math.toRadians(rotation));
         
         // If they hit the borders or end of the screen we have to wrap them around
         // The new origin is the projection of the intersection point on the opposite border 
@@ -70,8 +80,8 @@ public class Player implements IRenderable {
         	this.currentY = GameApp.SCREEN_HEIGHT - 2;            
         } else if ( this.currentY >= GameApp.SCREEN_HEIGHT - 1) {
         	this.currentY = 1;            
-        }
-		
+        }                      
+		        
 	}
 	
 }
